@@ -64,6 +64,7 @@ seed_words = [
 
 brute_force_list = [
     'teste',
+    'teste',
     'end',
 ]
 
@@ -75,13 +76,11 @@ def clear_input():
 def check_by_pass(seed_words, brute_force_list):
     for seed in brute_force_list:
         seed_words.append(seed)
+        driver.execute_script("window.location.reload();")
         for x in range(12):
             element = driver.find_element(By.ID, f"import-srp__srp-word-{x}")
             element = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, f"import-srp__srp-word-{x}")))
-            # TODO: Resolver bug de limpar o campo
-            element.clear()
             element.send_keys(seed_words[x])
-
         by_pass = driver.find_element(By.CSS_SELECTOR, '[data-testid="import-srp-confirm"]')
 
         if by_pass.is_enabled():
@@ -90,7 +89,7 @@ def check_by_pass(seed_words, brute_force_list):
         seed_words.pop()
 
 
-check_by_pass(seed_words, brute_force_list)
+print(check_by_pass(seed_words, brute_force_list), "result by pass")
 
 print(driver.current_url)
 
